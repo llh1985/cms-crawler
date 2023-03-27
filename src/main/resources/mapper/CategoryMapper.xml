@@ -1,0 +1,33 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.crawler.mapper.CategoryMapper">
+    <resultMap id="BaseResultMap" type="com.example.crawler.entity.Category">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="BIGINT"/>
+        <result column="leaf" property="leaf" jdbcType="BIT"/>
+    </resultMap>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT id, name, url, parent_id, leaf
+        FROM category
+    </select>
+
+    <select id="selectByUrl" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT id, name, url, parent_id, leaf
+        FROM category
+        WHERE url = #{url}
+    </select>
+
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT id, name, url, parent_id, leaf
+        FROM category
+        WHERE name = #{name}
+    </select>
+
+    <insert id="insert" parameterType="com.example.crawler.entity.Category" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO category (name, url, parent_id, leaf)
+        VALUES (#{name}, #{url}, #{parentId}, #{leaf})
+    </insert>
+</mapper>

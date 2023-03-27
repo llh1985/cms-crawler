@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.crawlers.mapper.ArticleMapper">
+    <resultMap id="ArticleResultMap" type="com.example.crawlers.model.Article">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="url" property="url"/>
+        <result column="publish_date" property="publishDate"/>
+        <result column="category_id" property="categoryId"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.example.crawlers.model.Article">
+        insert into article (title, content, url, publish_date, category_id)
+        values (#{title}, #{content}, #{url}, #{publishDate}, #{categoryId})
+    </insert>
+
+    <select id="findById" resultMap="ArticleResultMap" parameterType="int">
+        select * from article where id = #{id}
+    </select>
+</mapper>

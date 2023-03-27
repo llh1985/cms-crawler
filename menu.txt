@@ -1,0 +1,41 @@
+src
+└── main
+    ├── java
+
+    │   └── com.example.crawlers.config
+    │   └── com
+    │       └── example
+    │           └── crawlers
+    │               ├── config
+    │               │   ├── DatabaseConfig.java
+    │               │   ├── DownloadConfig.java
+    │               │   └── SpringConfig.java
+    │               ├── controller
+    │               │   └── CrawlerController.java
+    │               ├── dao
+    │               │   ├── ArticleDao.java
+    │               │   ├── CategoryDao.java
+    │               │   └── impl
+    │               │       ├── ArticleDaoImpl.java
+    │               │       └── CategoryDaoImpl.java
+    │               ├── model
+    │               │   ├── Article.java
+    │               │   └── Category.java
+    │               ├── service
+    │               │   ├── ArticleService.java
+    │               │   ├── CategoryService.java
+    │               │   └── impl
+    │               │       ├── ArticleServiceImpl.java
+    │               │       └── CategoryServiceImpl.java
+    │               ├── utils
+    │               │   ├── CrawlerUtils.java
+    │               │   ├── FileUtils.java
+    │               │   └── StringUtils.java
+    │               └── Application.java
+    └── resources
+        ├── application.properties
+        ├── mapper
+        │   ├── ArticleMapper.xml
+        │   └── CategoryMapper.xml
+        └── templates
+            └── index.html
