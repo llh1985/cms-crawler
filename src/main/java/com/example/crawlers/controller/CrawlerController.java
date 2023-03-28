@@ -47,13 +47,43 @@ public class CrawlerController {
         this.articleService = articleService;
     }
 
-    @RequestMapping(value = "/crawler", method = RequestMethod.GET)
-    public String crawler() throws IOException {
-        Document document = Jsoup.connect(siteUrl).get();
+
+    public void crawlerFrontPage(String url) throws IOException {
+        Document document = Jsoup.connect(url).get();
+        Elements aTags = document.getElementsByTag("a");
+        aTags.stream()
+                .filter(a -> a.hasAttr("href"))
+                .map(a->{
+                    String href = StringUtils.trim(a.attr("href"));
+                    if (StringUtils.isBlank(href)){
+                        System.out.println("[Blank]"+a.text());
+                    }else if (!StringUtils.isStartWith(href,"/")){
+                        System.out.println("[outLink]"+a.text() + "[href:"+href+"]" );
+                    }else {
+                        return href;
+                    }
+                    return null;
+                })
+                .filter(StringUtils::isNotBlank)
+                .forEach(href -> {
+                    crawler(href);
+                });
+//        Element classifyDiv = document.getElementsByClass("classifyDIV").first();
+    }
+
+    public String crawler(String url)  {
+        Document document = null;
+        try {
+            document = Jsoup.connect(url).get();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         Element classifyDiv = document.getElementsByClass("classifyDIV").first();
         Elements aTags = classifyDiv.getElementsByTag("a");
 
-        if (aTags.last().text().equals("正文") && StringUtils.trim(aTags.last().attr("href")).equals("")) {
+        if (aTags.last().text().equals("正文") &&
+                (!aTags.last().hasAttr("href")
+                        || StringUtils.trim(aTags.last().attr("href")).equals("") ) ) {
             Article article = parseArticle(document);
             if (article != null) {
                 articleService.save(article);
